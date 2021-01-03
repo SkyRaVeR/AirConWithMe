@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="airconwithme"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- Sample Thing Type -->
+	<thing-type id="airconwithme">
+		<label>AirConWithMe Binding Thing</label>
+		<description>Sample thing for AirConWithMe Binding</description>
+
+		<channels>
+			<channel id="status" typeId="status"/>
+			<channel id="quietmode" typeId="quietmode"/>
+			<channel id="usermode" typeId="usermode"/>
+			<channel id="fanspeed" typeId="fanspeed"/>
+			<channel id="vaneposition" typeId="vaneposition"/>
+			<channel id="desiredtemp" typeId="setpointTemp"/>
+			<channel id="currenttemp" typeId="currenttemp"/>
+			<channel id="outdoortemp" typeId="outdoortemp"/>
+			<channel id="ontime" typeId="ontime"/>
+
+		</channels>
+
+		<config-description>
+			<parameter name="host" type="text" required="true">
+				<label>Hostname / IP of Aircon device</label>
+				<description>add the parameter of you local aircon device </description>
+				<default>192.168.178.87</default>
+			</parameter>
+			<parameter name="pollingInterval" type="integer" required="false">
+				<label>Pollinginterval</label>
+				<description>time to poll status data </description>
+				<unitLabel>s</unitLabel>
+				<default>60</default>
+			</parameter>
+			<parameter name="reconnectDelay" type="integer">
+				<advanced>true</advanced>
+				<label>Reconnect delay</label>
+				<description>Delay until when a reconnect will be re attempted</description>
+				<unitLabel>s</unitLabel>
+				<default>60</default>
+				<required>false</required>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<channel-type id="status">
+		<item-type>Switch</item-type>
+		<label>Power (on/off)</label>
+		<description>Describes whether the AC is running or not</description>
+	</channel-type>
+	<channel-type id="quietmode">
+		<item-type>Switch</item-type>
+		<label>Quiet mode (on/off)</label>
+		<description>Activate/Deactivate 'quiet mode'</description>
+	</channel-type>
+
+	<channel-type id="usermode">
+		<item-type>String</item-type>
+		<label>Usermode</label>
+		<description>Operationmodes (Auto, Heat, Dry, Fan, Cool)</description>
+		<state readOnly="false" pattern="%s">
+			<options>
+				<option value="0">Auto</option>
+				<option value="1">Heat</option>
+				<option value="2">Dry</option>
+				<option value="3">Fan</option>
+				<option value="4">Cool</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="fanspeed">
+		<item-type>String</item-type>
+		<label>Fanspeed</label>
+		<description>Speed of the fan</description>
+		<state readOnly="false" pattern="%s">
+			<options>
+				<option value="1">Speed1</option>
+				<option value="2">Speed2</option>
+				<option value="3">Speed3</option>
+				<option value="4">Speed4</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="vaneposition">
+		<item-type>String</item-type>
+		<label>Vane Up/Down Position</label>
+		<description>Position of the vane</description>
+		<state readOnly="false" pattern="%s">
+			<options>
+				<option value="1">Position1</option>
+				<option value="2">Position2</option>
+				<option value="3">Position3</option>
+				<option value="4">Position4</option>
+				<option value="10">Swing</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="setpointTemp">
+		<item-type>Number:Temperature</item-type>
+		<label>Setpoint</label>
+		<description>Temperature setpoint</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>TargetTemperature</tag>
+		</tags>
+
+		<state min="18" max="30" step="0.5" pattern="%.1f %unit%" readOnly="false"></state>
+	</channel-type>
+
+	<channel-type id="outdoortemp">
+		<item-type>Number:Temperature</item-type>
+		<label>Current outdoor Temperature</label>
+		<description>Current outdoor temperature...</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>CurrentTemperature</tag>
+		</tags>
+		<state min="-10" max="50" step="1" pattern="%.1f °C" readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="currenttemp">
+		<item-type>Number:Temperature</item-type>
+		<label>Current Temperature</label>
+		<description>Current temperature...</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>CurrentTemperature</tag>
+		</tags>
+		<state min="-10" max="50" step="1" pattern="%.1f °C" readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="ontime">
+		<item-type>Number</item-type>
+		<label>Operating time</label>
+		<description>Time the unit has been running after last reset</description>
+		<state min="0" max="9999" step="1" pattern="%s h" readOnly="false"/>
+	</channel-type>
+
+
+
+</thing:thing-descriptions>

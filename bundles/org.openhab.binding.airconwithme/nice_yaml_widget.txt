@@ -1,0 +1,290 @@
+uid: Sensibo_ACcontroller_two
+tags: []
+props:
+  parameters:
+    - description: The Label at the top of the card
+      label: Friendly name of your aircon eg. Lounge
+      name: title
+      required: false
+      type: TEXT
+    - description: An item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Dec 7, 2020, 9:11:11 PM
+component: f7-block
+config:
+  style:
+    --f7-button-text-color: var(--f7-text-color)
+    --f7-button-bg-color: var(--f7-card-bg-color)
+    --f7-theme-color-rgb: var(--f7-color-blue-rgb)
+  class:
+    - no-padding
+slots:
+  default:
+    - component: Label
+      config:
+        class:
+          - margin
+          - no-padding
+        text: =props.title
+        style:
+          text-align: center
+          height: auto
+    - component: f7-row
+      config:
+        class:
+          - margin
+      slots:
+        default:
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: toggle
+                    actionItem: =(props.item + "_MasterSwitch")
+                    actionCommand: ON
+                    actionCommandAlt: OFF
+                    icon-f7: power
+                    iconSize: 28
+                    iconColor: '=(items[props.item + "_MasterSwitch"].state === "OFF") ? "red" : "green"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      height: auto
+                      font-size: 12px
+          - component: f7-col
+            config:
+              style:
+                text-align: right
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =items[props.item + "_CurrentTemperature"].state.displayState || items[props.item + "_CurrentTemperature"].state
+                    style:
+                      white-space: nowrap
+                      text-overflow: elipsis
+                      heigh: auto
+                      font-size: 12px
+                - component: Label
+                  config:
+                    text: =items[props.item + "_CurrentHumidity"].displayState || items[props.item + "_CurrentHumidity"].state
+                    style:
+                      white-space: nowrap
+                      text-overflow: elipsis
+                      heigh: auto
+                      font-size: 12px
+    - component: f7-row
+      config:
+        class:
+          - margin
+          - no-padding
+      slots:
+        default:
+          - component: oh-label-card
+            config:
+              noBorder: true
+              noShadow: true
+              size: 270
+              outline: true
+              action: analyzer
+              icon: oh:temperature
+              trendItem: =(props.item + '_CurrentTemperature')
+              item: =(props.item + '_CurrentTemperature')
+              actionAnalyzerItems: =[props.item + '_CurrentHumidity', props.item + '_CurrentTemperature']
+              class:
+                - no-padding
+    - component: f7-row
+      config:
+        class:
+          - justify-content-center
+      slots:
+        default:
+          - component: oh-gauge-card
+            config:
+              id: Targer Temperature https://framework7.io/vue/gauge.html#gauge-properties
+              type: semicircle
+              item: =(props.item + '_targetTemperature')
+              size: 270
+              bg-color: transparent
+              border-bg-color: grey
+              border-color: '=(items[props.item + "_mode"].state === "cool") ? "blue" : "gray"'
+              borderWidth: 25
+              value-text: text
+              value-text-color: '=(items[props.item + "_mode"].state === "heat") ? "red" : "blue"'
+              value-font-size: 20
+              value-font-weight: 500
+              label-text: =props.title
+              label-text-color: black
+              label-font-size: 18
+              label-font-weight: 400
+              noBorder: true
+              noShadow: true
+              outline: true
+              class:
+                - justify-content-center
+    - component: f7-row
+      config:
+        class:
+          - margin
+      slots:
+        default:
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    action: command
+                    actionItem: =(props.item + '_mode')
+                    actionCommand: ="auto"
+                    icon-f7: arrow_2_circlepath
+                    iconColor: '=(items[props.item + "_mode"].state === "auto") ? "red" : "gray"'
+                    text: AUTO
+                    textColor: '=(items[props.item + "_mode"].state === "auto") ? "red" : "gray"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 8px
+                      height: auto
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    action: command
+                    actionItem: =(props.item + '_mode')
+                    actionCommand: ="heat"
+                    icon-f7: thermometer_sun
+                    iconColor: '=(items[props.item + "_mode"].state === "heat") ? "orange" : "gray"'
+                    text: HEAT
+                    textColor: '=(items[props.item + "_mode"].state === "heat") ? "black" : "gray"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 8px
+                      height: auto
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    action: command
+                    actionItem: =(props.item + '_mode')
+                    actionCommand: ="dry"
+                    icon-f7: drop
+                    iconColor: '=(items[props.item + "_mode"].state === "dry") ? "yellow" : "gray"'
+                    text: DRY
+                    textColor: '=(items[props.item + "_mode"].state === "dry") ? "black" : "gray"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 8px
+                      height: auto
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    action: command
+                    actionItem: =(props.item + '_mode')
+                    actionCommand: ="fan"
+                    icon-f7: wind
+                    iconColor: '=(items[props.item + "_mode"].state === "fan") ? "white" : "gray"'
+                    text: FAN
+                    textColor: '=(items[props.item + "_mode"].state === "fan") ? "black" : "gray"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 8px
+                      height: auto
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    action: command
+                    actionItem: =(props.item + '_mode')
+                    actionCommand: ="cool"
+                    icon-f7: thermometer_snowflake
+                    iconColor: '=(items[props.item + "_mode"].state === "cool") ? "blue" : "gray"'
+                    text: COOL
+                    textColor: '=(items[props.item + "_mode"].state === "cool") ? "blue" : "gray"'
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 8px
+                      height: auto
+    - component: f7-row
+      config: {}
+      slots:
+        default:
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: options
+                    actionItem: =(props.item + '_fanLevel')
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    icon-f7: chart_bar
+                    iconColor: yellow
+                    size: 20
+                    text: =items[props.item + '_fanLevel'].state
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      font-size: 12px
+                      height: auto
+          - component: f7-col
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: options
+                    actionItem: =(props.item + '_swingMode')
+                    class:
+                      - margin
+                      - display-flex
+                      - flex-direction-column
+                    icon-f7: arrow_up_down_circle
+                    iconColor: green
+                    size: 20
+                    text: =items[props.item + '_swingMode'].state
+                    style:
+                      --f7-button-bg-color: transparent
+                      --f7-button-hover-bg-color: transparent
+                      --f7-button-pressed-bg-color: transparent
+                      font-size: 12px
+                      height: auto
