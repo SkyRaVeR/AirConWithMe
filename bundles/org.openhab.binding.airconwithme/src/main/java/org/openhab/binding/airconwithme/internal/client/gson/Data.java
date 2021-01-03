@@ -23,6 +23,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author SkyRaVeR - initial contribution
  */
+
 public class Data {
 
     @SerializedName("id")

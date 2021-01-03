@@ -48,7 +48,7 @@ public class AirConWithMeBindingConstants {
     public static final ThingTypeUID THING_TYPE_AIRCON = new ThingTypeUID(BINDING_ID, AIRCON_THING_NAME);
 
     // List of all Channel ids
-    public static final String CHANNEL_AIRCON_ONOFF = "status";
+    public static final String CHANNEL_AIRCON_ONOFF = "power";
     public static final String CHANNEL_AIRCON_QUIETMODE = "quietmode";
     public static final String CHANNEL_AIRCON_UMODE = "usermode";
     public static final String CHANNEL_AIRCON_FANSPEED = "fanspeed";

@@ -12,6 +12,8 @@
  */
 package org.openhab.binding.airconwithme.internal.client;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
@@ -20,7 +22,6 @@ import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpMethod;
 import org.openhab.binding.airconwithme.internal.client.gson.Error;
 import org.openhab.binding.airconwithme.internal.client.gson.JSONData;
-import org.openhab.binding.airconwithme.internal.client.gson.capabilities.Capabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
  *
  * @author SkyRaVeR - initial contribution
  */
+@NonNullByDefault
 public class AirConClient {
 
     private final Logger logger = LoggerFactory.getLogger(AirConClient.class);
@@ -48,12 +50,12 @@ public class AirConClient {
 
     private Gson gson;
 
-    private ResponseCallback mycallb;
+    private @Nullable ResponseCallback mycallb;
 
     public AirConClient(HttpClient client) {
         logger.debug("Aircon client started");
         httpClient = client;
-        setHostname("");
+        hostname = "";
         sessionid = "";
         gson = new Gson();
     }
@@ -121,33 +123,6 @@ public class AirConClient {
         return String.format("http://%s/api.cgi", getHostname());
     }
 
-    public void retrieveCapabilities() {
-        //
-        String response = "";
-        ContentResponse res = null;
-
-        Capabilities jsonresponse = null;
-
-        try {
-            res = httpClient.GET(String.format("http://%s/js/data/data.json", getHostname()));
-
-            response = res.getContentAsString();
-            response = response.replaceAll("\\{\\}", "\"\" ");
-            // logger.debug(response);
-            jsonresponse = gson.fromJson(response, Capabilities.class);
-
-            if (null == jsonresponse) {
-                jsonresponse = new Capabilities();
-            }
-
-            if (null != mycallb) {
-                mycallb.responseCallbackCapabilities(jsonresponse);
-            }
-        } catch (Exception e) {
-            logger.error("{}", e.getMessage());
-        }
-    }
-
     /***
      * tries to send a rest request to the ac unit
      *
@@ -183,11 +158,12 @@ public class AirConClient {
         } catch (Exception e) {
             logger.debug("{}", response);
             logger.error("{}", e.getMessage());
-            if (null == jsonresponse) {
-                jsonresponse = new JSONData();
-                jsonresponse.setSuccess(false);
-                jsonresponse.setError(new Error("unknown error occured"));
-            }
+        }
+
+        if (null == jsonresponse) {
+            jsonresponse = new JSONData();
+            jsonresponse.setSuccess(false);
+            jsonresponse.setError(new Error("unknown error occured"));
         }
 
         return jsonresponse;

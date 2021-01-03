@@ -10,7 +10,7 @@
 		<description>Sample thing for AirConWithMe Binding</description>
 
 		<channels>
-			<channel id="status" typeId="status"/>
+			<channel id="power" typeId="power"/>
 			<channel id="quietmode" typeId="quietmode"/>
 			<channel id="usermode" typeId="usermode"/>
 			<channel id="fanspeed" typeId="fanspeed"/>
@@ -45,7 +45,7 @@
 		</config-description>
 	</thing-type>
 
-	<channel-type id="status">
+	<channel-type id="power">
 		<item-type>Switch</item-type>
 		<label>Power (on/off)</label>
 		<description>Describes whether the AC is running or not</description>

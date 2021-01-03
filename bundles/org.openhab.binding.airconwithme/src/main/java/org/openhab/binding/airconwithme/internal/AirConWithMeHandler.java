@@ -28,7 +28,6 @@ import org.openhab.binding.airconwithme.internal.client.AirConClient;
 import org.openhab.binding.airconwithme.internal.client.ResponseCallback;
 import org.openhab.binding.airconwithme.internal.client.gson.Dpval;
 import org.openhab.binding.airconwithme.internal.client.gson.JSONData;
-import org.openhab.binding.airconwithme.internal.client.gson.capabilities.Capabilities;
 import org.openhab.binding.airconwithme.internal.job.StatusJob;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.OnOffType;
@@ -238,13 +237,6 @@ public class AirConWithMeHandler extends BaseThingHandler implements ResponseCal
             if (scheduledFutures.isEmpty()) {
                 startPolling();
             }
-        }
-    }
-
-    @Override
-    public void responseCallbackCapabilities(Capabilities capabilities) {
-        if (null == capabilities.getInfo()) {
-            return;
         }
     }
 

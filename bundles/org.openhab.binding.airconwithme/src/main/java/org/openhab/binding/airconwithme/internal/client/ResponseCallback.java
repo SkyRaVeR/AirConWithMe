@@ -14,7 +14,6 @@ package org.openhab.binding.airconwithme.internal.client;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.airconwithme.internal.client.gson.JSONData;
-import org.openhab.binding.airconwithme.internal.client.gson.capabilities.Capabilities;
 
 /**
  * The {@link ResponseCallback} interface is responsible for handling commands, which are
@@ -28,6 +27,4 @@ public interface ResponseCallback {
     void responseCallbackLoggedIn(boolean isloggedin);
 
     void responseCallbackData(JSONData statusdata);
-
-    void responseCallbackCapabilities(Capabilities capabilities);
 }
